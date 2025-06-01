@@ -11,10 +11,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-// IF THE SCHEMA IS CHANGED, RUN NPX PRISMA GENERATE  IN ORDER TO UPDATE THE LIBRARY
-// & NPX PRISMA DB PUSH & NPX PRISMA DB SEED  --> IK DENK IN DEZE VOLGORDE ALLEDRIE
-// VERVOLGENS BEKIJKEN MET NPX PRISMA STUDIO
-
 /**
  * Resetting the database after every test (or code change in the seed.js or schema.prisma)
  * Reset the database completely: npx prisma db push --force-reset
