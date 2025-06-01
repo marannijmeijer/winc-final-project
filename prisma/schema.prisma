@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "sqlite"
+  url          = "file:./dev.db"
+  relationMode = "prisma"
+}
+
+// IF THE SCHEMA IS CHANGED, RUN NPX PRISMA GENERATE  IN ORDER TO UPDATE THE LIBRARY
+// & NPX PRISMA DB PUSH & NPX PRISMA DB SEED  --> IK DENK IN DEZE VOLGORDE ALLEDRIE
+// VERVOLGENS BEKIJKEN MET NPX PRISMA STUDIO
+
+/**
+ * Resetting the database after every test (or code change in the seed.js or schema.prisma)
+ * Reset the database completely: npx prisma db push --force-reset
+ * Fill the database: npx prisma db seed
+ * Run the application: npm run dev
+ */
+
+model User {
+  id             String @id @default(uuid())
+  username       String @unique
+  password       String
+  name           String
+  email          String
+  phoneNumber    String
+  profilePicture String
+}
+
+model Booking {
+  id String @id @default(uuid())
+
+  // relations by id
+  userId String
+
+  checkinDate    DateTime
+  checkoutDate   DateTime
+  numberOfGuests Int
+  totalPrice     Float
+  bookingStatus  String
+
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  propertyId String
+
+  @@index([propertyId])
+}
+
+model Review {
+  id String @id @default(uuid())
+
+  // relations by id
+  userId     String
+  propertyId String
+
+  rating  Int
+  comment String?
+
+  property Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId])
+}
+
+model Property {
+  id String @id @default(uuid())
+
+  // relations by id
+  hostId String
+
+  title         String
+  description   String
+  location      String
+  pricePerNight Float
+  bedroomCount  Int
+  bathRoomCount Int
+  maxGuestCount Int
+  rating        Int
+
+  host Host @relation(fields: [hostId], references: [id])
+
+  bookings  Booking[]
+  reviews   Review[]
+  amenities Amenity[]
+
+  @@index([hostId])
+}
+
+model Host {
+  id String @id @default(uuid())
+
+  username       String @unique
+  password       String
+  name           String
+  email          String
+  phoneNumber    String
+  profilePicture String
+  aboutMe        String
+
+  properties Property[]
+}
+
+model Amenity {
+  id   String @id @default(uuid())
+  name String
+
+  properties Property[]
+}
