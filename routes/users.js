@@ -52,7 +52,11 @@ router.put("/:id", authMiddleware, async (req, res) => {
         const { id } = req.params
         const { username, password, name, email, phoneNumber, profilePicture } = req.body
         const updatedUser = await updateUserById(id, username, password, name, email, phoneNumber, profilePicture)
-        res.status(200).json(updatedUser)
+        if (!updatedUser || updatedUser.count === 0) {
+            res.status(404).send(`User with id ${id} was not found`)
+        } else {
+            res.status(200).json(updatedUser)
+        }
     } catch (error) {
         console.error(error)
         res.status(500).send('Something went wrong while updating user by id.')

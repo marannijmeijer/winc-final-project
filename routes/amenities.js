@@ -51,7 +51,11 @@ router.put("/:id", authMiddleware, async (req, res) => {
         const { id } = req.params
         const { name } = req.body
         const updatedAmenity = await updateAmenityById(id, name)
-        res.status(200).json(updatedAmenity)
+        if (!updatedAmenity || updatedAmenity.count === 0) {
+            res.status(404).send(`Amenity with id ${id} was not found`)
+        } else {
+            res.status(200).json(updatedAmenity)
+        }
     } catch (error) {
         console.error(error)
         res.status(500).send('Something went wrong while updating amenity by id.')

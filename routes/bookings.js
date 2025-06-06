@@ -52,7 +52,11 @@ router.put("/:id", authMiddleware, async (req, res) => {
         const { id } = req.params
         const { userId, propertyId, checkinDate, checkoutDate, numberOfGuests, totalPrice, bookingStatus } = req.body
         const updatedBooking = await updateBookingById(id, userId, propertyId, checkinDate, checkoutDate, Number(numberOfGuests), parseFloat(totalPrice), bookingStatus)
-        res.status(200).json(updatedBooking)
+        if (!updatedBooking || updatedBooking.count === 0) {
+            res.status(404).send(`Booking with id ${id} was not found`)
+        } else {
+            res.status(200).json(updatedBooking)
+        }
     } catch (error) {
         console.error(error)
         res.status(500).send('Something went wrong while updating booking with id.')

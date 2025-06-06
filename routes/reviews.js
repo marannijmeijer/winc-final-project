@@ -51,7 +51,11 @@ router.put("/:id", authMiddleware, async (req, res) => {
         const { id } = req.params
         const { userId, propertyId, rating, comment } = req.body
         const updatedReview = await updateReviewById(id, userId, propertyId, Number(rating), comment)
-        res.status(200).json(updatedReview)
+        if (!updatedReview || updatedReview.count === 0) {
+            res.status(404).send(`Review with id ${id} was not found`)
+        } else {
+            res.status(200).json(updatedReview)
+        }
     } catch (error) {
         console.error(error)
         res.status(500).send('Something went wrong while updating review by id.')
