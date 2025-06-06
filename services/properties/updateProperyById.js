@@ -13,7 +13,7 @@ const updatePropertyById = async (id, title, description, location, pricePerNigh
     })
 
     if (!updatedProperty || updatedProperty.count === 0) {
-        throw new Error(`Property with id ${id} was not found!`)
+        return
     }
 
     return {

@@ -13,7 +13,7 @@ const updateReviewById = async (id, userId, propertyId, rating, comment) => {
     })
 
     if (!updatedReview || updatedReview.count === 0) {
-        throw new Error(`Review with id ${id} was not found!`)
+        return
     }
 
     return {

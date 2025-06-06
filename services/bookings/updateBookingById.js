@@ -19,7 +19,7 @@ const updateBookingById = async (id, userId, propertyId, checkinDate, checkoutDa
     })
 
     if (!updatedBooking || updatedBooking.count === 0) {
-        throw new Error(`Booking with id ${id} was not found!`)
+        return
     }
 
     return {

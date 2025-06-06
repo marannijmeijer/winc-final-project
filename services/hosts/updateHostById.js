@@ -13,7 +13,7 @@ const updateHostById = async (id, username, password, name, email, phoneNumber, 
     })
 
     if (!updatedHost || updatedHost.count === 0) {
-        throw new Error(`Host with id ${id} was not found!`)
+        return
     }
 
     return {
