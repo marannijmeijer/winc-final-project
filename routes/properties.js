@@ -41,7 +41,11 @@ router.post("/", authMiddleware, async (req, res) => {
     try {
         const { title, description, location, pricePerNight, bedroomCount, bathRoomCount, maxGuestCount, hostId, rating } = req.body
         const newProperty = await createProperty(title, description, location, parseFloat(pricePerNight), Number(bedroomCount), Number(bathRoomCount), Number(maxGuestCount), hostId, Number(rating))
-        res.status(201).json(newProperty)
+        if (title === undefined || description === undefined || location === undefined || pricePerNight === undefined || bedroomCount === undefined || bathRoomCount === undefined || maxGuestCount === undefined || hostId === undefined || rating === undefined) {
+            res.status(400).send(`(Some of) the given values are invalid`)
+        } else {
+            res.status(201).json(newProperty)
+        }
     } catch (error) {
         console.error(error)
         res.status(500).send('Something went wrong while creating new property.')

@@ -39,7 +39,11 @@ router.post("/", authMiddleware, async (req, res) => {
     try {
         const { name } = req.body
         const newAmenity = await createAmenity(name)
-        res.status(201).json(newAmenity)
+        if (name === undefined) {
+            res.status(400).send(`The given value is invalid`)
+        } else {
+            res.status(201).json(newAmenity)
+        }
     } catch (error) {
         console.error(error)
         res.status(500).send('Something went wrong while creating new amenity')

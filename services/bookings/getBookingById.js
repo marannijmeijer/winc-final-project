@@ -8,7 +8,7 @@ const getBookingById = async (id) => {
         }
     })
 
-    return booking
+    return booking;
 }
 
 export default getBookingById;

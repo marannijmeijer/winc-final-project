@@ -40,7 +40,11 @@ router.post("/", authMiddleware, async (req, res) => {
     try {
         const { username, password, name, email, phoneNumber, profilePicture } = req.body
         const newUser = await createUser(username, password, name, email, phoneNumber, profilePicture)
-        res.status(201).json(newUser)
+        if (username === undefined || password === undefined || name === undefined || email === undefined || phoneNumber === undefined || profilePicture === undefined) {
+            res.status(400).send(`(Some of) the given values are invalid`)
+        } else {
+            res.status(201).json(newUser)
+        }
     } catch (error) {
         console.error(error)
         res.status(500).send('Something went wrong while creating new user.')

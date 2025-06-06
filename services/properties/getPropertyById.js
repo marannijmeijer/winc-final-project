@@ -8,7 +8,7 @@ const getPropertyById = async (id) => {
         }
     })
 
-    return property
+    return property;
 }
 
-export default getPropertyById
+export default getPropertyById;

@@ -40,7 +40,11 @@ router.post("/", authMiddleware, async (req, res) => {
     try {
         const { username, password, name, email, phoneNumber, profilePicture, aboutMe } = req.body
         const newHost = await createHost(username, password, name, email, phoneNumber, profilePicture, aboutMe)
-        res.status(201).json(newHost)
+        if (username === undefined || password === undefined || name === undefined || email === undefined || phoneNumber === undefined || profilePicture === undefined || aboutMe === undefined) {
+            res.status(400).send(`(Some of) the given values are invalid`)
+        } else {
+            res.status(201).json(newHost)
+        }
     } catch (error) {
         console.error(error)
         res.status(500).send('Something went wrong while creating new host.')

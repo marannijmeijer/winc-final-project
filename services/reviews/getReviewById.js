@@ -8,7 +8,7 @@ const getReviewById = async (id) => {
         }
     })
 
-    return review
+    return review;
 }
 
-export default getReviewById
+export default getReviewById;

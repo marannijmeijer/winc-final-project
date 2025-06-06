@@ -39,7 +39,11 @@ router.post("/", authMiddleware, async (req, res) => {
     try {
         const { userId, propertyId, rating, comment } = req.body
         const newReview = await createReview(userId, propertyId, Number(rating), comment)
-        res.status(201).json(newReview)
+        if (userId === undefined || propertyId === undefined || rating === undefined || comment === undefined) {
+            res.status(400).send(`(Some of) the given values are invalid`)
+        } else {
+            res.status(201).json(newReview)
+        }
     } catch (error) {
         console.error(error)
         res.status(500).send('Something went wrong while creating new review.')
